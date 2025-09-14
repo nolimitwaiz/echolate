@@ -1,0 +1,98 @@
+app:
+  name: "Echo"
+  version: "1.0.0"
+  host: "0.0.0.0"
+  port: 7860
+  debug: false
+
+audio:
+  max_duration_seconds: 90
+  sample_rate: 16000
+  supported_formats: ["wav", "mp3", "webm", "m4a", "flac", "aac"]
+  
+vad:
+  aggressiveness: 2
+  frame_duration_ms: 30
+  
+asr:
+  default_model: "faster_whisper"
+  faster_whisper:
+    model_size: "small.en"
+    device: "cpu"
+    compute_type: "int8"
+    beam_size: 5
+    language: "en"
+  vosk:
+    model_path: "models/vosk-model-small-en-us-0.15"
+  whisperx:
+    enabled: false
+    model_size: "base.en"
+    device: "cpu"
+    compute_type: "int8"
+
+analysis:
+  snr_db_threshold: 20.0
+  min_speech_duration: 1.0
+  wpm:
+    slow_threshold: 120
+    fast_threshold: 180
+    target_range: [140, 160]
+  clarity:
+    confidence_threshold: 0.8
+  prosody:
+    uptalk_threshold: 0.18
+    pitch_stability_window: 2.0
+    energy_stability_window: 1.0
+  pauses:
+    min_pause_duration: 0.3
+    rhetorical_threshold: 1.0
+    punctuation_tolerance_ms: 250
+    filler_tolerance_ms: 400
+  phonemes:
+    risk_groups:
+      TH: ["θ", "ð"]
+      RL: ["r", "l"]
+      WV: ["w", "v"]
+      ZH: ["ʒ"]
+      NG: ["ŋ"]
+    confidence_penalty_weight: 0.4
+    duration_penalty_weight: 0.3
+    filler_penalty_weight: 0.3
+
+fillers:
+  patterns:
+    - "\\buh+\\b"
+    - "\\bum+\\b"
+    - "\\berm+\\b"
+    - "\\bahh?\\b"
+    - "\\blike\\b(?=\\s)"
+    - "\\byou know\\b"
+    - "\\bsort of\\b"
+    - "\\bkind of\\b"
+    - "\\bbasically\\b"
+    - "\\bactually\\b(?=\\s)"
+
+video:
+  enabled: false
+  fps: 30
+  gaze_target_width_pct: 0.14
+  gaze_target_height_pct: 0.16
+
+ui:
+  theme: "default"
+  high_contrast: false
+  speaking_modes:
+    - "Presentation"
+    - "Interview" 
+    - "Casual"
+  default_speaking_mode: "Presentation"
+
+storage:
+  session_history_limit: 10
+  drill_history_limit: 10
+  reports_dir: "reports"
+  cache_dir: "cache"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
